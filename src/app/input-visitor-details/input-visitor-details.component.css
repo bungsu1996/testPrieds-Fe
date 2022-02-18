@@ -1,0 +1,29 @@
+section {
+  position: relative;
+  top: 20px;
+}
+section .container .bar-menu {
+  background-color: rgb(226, 226, 226);
+}
+section .container .bar-menu ul {
+  margin: 0;
+  padding: 0;
+}
+section .container .bar-menu ul li {
+  display: inline-block;
+  padding: 15px 25px 15px 25px;
+  border-bottom: 3px solid rgb(226, 226, 226);
+  transition: .3s;
+}
+section .container .bar-menu ul li:hover {
+  border-bottom: 3px solid rgb(43, 43, 175);
+  cursor: pointer;
+}
+section .container .bar-menu ul li:active {
+  border-bottom: 3px solid rgb(43, 43, 175);
+}
+section .container .body-article .warn {
+  padding: 15px 0;
+  margin: 10px 0 0 0;
+  font-size: 24px;
+}

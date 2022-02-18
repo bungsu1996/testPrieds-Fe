@@ -1,1 +1,36 @@
-<p>request-queue-number works!</p>
+<div>
+  <h1 class="sub">ALMEGATEX</h1>
+  <h3 style="text-align: center">Nomor Antrian anda :</h3>
+  <br /><br />
+  <h1 class="numb-qeue">A001</h1>
+  <br /><br />
+  <h3 style="text-align: center">Mohon Menunggu</h3>
+  <div fxLayout="column">
+    <ngx-barcode
+      *ngFor="let bcValue of values"
+      [bc-element-type]="elementType"
+      [bc-value]="bcValue"
+      [bc-format]="format"
+      [bc-line-color]="lineColor"
+      [bc-width]="width"
+      [bc-height]="height"
+      [bc-display-value]="displayValue"
+      [bc-font-options]="fontOptions"
+      [bc-font]="font"
+      [bc-text-align]="textAlign"
+      [bc-text-position]="textPosition"
+      [bc-text-margin]="textMargin"
+      [bc-font-size]="fontSize"
+      [bc-background]="background"
+      [bc-margin]="margin"
+      [bc-margin-top]="marginTop"
+      [bc-margin-bottom]="marginBottom"
+      [bc-margin-left]="marginLeft"
+      [bc-margin-right]="marginRight"
+    ></ngx-barcode>
+  </div>
+  <hr style="border-bottom: 5px solid black">
+  <h3 style="text-align: center">Budayakan antri untuk kenyamanan<br /> bersama</h3>
+  <h3 style="text-align: center; font-weight: bold;">Terima Kasih atas kunjungan anda</h3>
+  <button type="submit" class="get-ticket">Ambil Antrian</button>
+</div>

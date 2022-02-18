@@ -1,1 +1,128 @@
-<p>input-visitor-details works!</p>
+<section>
+  <div class="container">
+    <div class="col-12 bar-menu">
+      <ul>
+        <li (click)="onVisitorRegister()">Visitors Register</li>
+        <li (click)="onvisitorList()">Visitors List</li>
+        <li (click)="onvisitorSetting()">Visitors Setting</li>
+        <li (click)="onvisitorImport()">Visitors Register Import</li>
+      </ul>
+    </div>
+
+    <div class="container border body-article" *ngIf="!visitorRegister">
+      <p class="warn">Visitors Biodata</p>
+      <form [formGroup]="addNewVisitors">
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Visitor Name</mat-label>
+                <input matInput formControlName="nameVisitor"/>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Place & Birthday Visitor</mat-label>
+                <input matInput formControlName="birthVisitor"/>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Age Visitors</mat-label>
+                <input matInput formControlName="ageVisitor"/>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>No Contact Visitor</mat-label>
+                <input matInput formControlName="contactVisitor"/>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Poliklinik</mat-label>
+                <mat-select formControlName="poliklinik">
+                  <mat-option *ngFor="let item of polikliniks" [value]="item.name">
+                    {{item.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="container p-0 m-0">
+              <div class="row">
+                <div class="col-md-4 row">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Weight</mat-label>
+                    <input matInput formControlName="weightVisitor"/>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 row">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Height</mat-label>
+                    <input matInput formControlName="heightVisitor"/>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 row">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Blood Pressure</mat-label>
+                    <input matInput formControlName="bloodVisitor"/>
+                  </mat-form-field>
+                </div>
+              </div>
+             
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Address 1</mat-label>
+                <textarea matInput style="resize: none" rows="3" formControlName="adres1Visitor"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Address 2</mat-label>
+                <textarea matInput style="resize: none" rows="3" formControlName="adres2Visitor"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Anamnesis</mat-label>
+                <textarea matInput style="resize: none" rows="3" formControlName="anamnesisVisitor"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Treatment</mat-label>
+                <textarea matInput style="resize: none" rows="3" formControlName="treatmentVisitor"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+       <div class="container mb-2">
+        <button type="submit" class="btn btn-primary" style="margin-right: 8px;font-size: 12px;" (click)="onBack()">Back</button>
+        <button type="submit" class="btn btn-primary" style="font-size: 12px;" (click)="onSubmit()">+ Add New</button>
+       </div>
+      </form>
+    </div>
+
+    <div class="container border" *ngIf="visitorList">
+      <h1>Visitor List</h1>
+      <div class="container mb-2">
+        <button type="submit" class="btn btn-primary" style="margin-right: 8px;font-size: 12px;" (click)="onBack()">Back</button>
+      </div>
+    </div>
+    <div class="container border" *ngIf="visitorSetting">
+      <h1>Visitor Setting/ Update</h1>
+      <div class="container mb-2">
+        <button type="submit" class="btn btn-primary" style="margin-right: 8px;font-size: 12px;" (click)="onBack()">Back</button>
+      </div>
+    </div>
+    <div class="container border" *ngIf="visitorImport">
+      <h1>Visitor Register Import</h1>
+      <div class="container mb-2">
+        <button type="submit" class="btn btn-primary" style="margin-right: 8px;font-size: 12px;" (click)="onBack()">Back</button>
+      </div>
+    </div>
+  </div>
+</section>
