@@ -2,21 +2,39 @@
   <header>
     <nav class="container-fluid border">
       <div class="row">
-        <div class="col-lg-6 border p-0">
-          <h1>Kiri</h1>
+        <div class="col-lg-4 border p-0">
+          <button type="submit" class="button-menu">
+            <img [src]="menuLeft" class="img-fluid img-button">
+          </button>
+          <img src="../../assets/img/1855701.ico">
         </div>
-        <div class="col-lg-6 border p-0">
+        <div class="col-lg-8 border p-0">
           <ul>
-            <li>Monday, 27 Dec 2022 0:40 PM</li>
-            <li>Icon Bug</li>
-            <li>Icon Tanda Tanya</li>
-            <li>Admin PT Hamzah</li>
+            <li>
+              {{ currentDate | date: "full" }}
+            </li>
+            <li>
+              <a class="linkPage">
+                <fa-icon [icon]="iconBug"></fa-icon>
+              </a>
+            </li>
+            <li>
+              <a class="linkPage">
+                <fa-icon [icon]="iconQuestion"></fa-icon>
+              </a>
+            </li>
+            <li>
+              <a class="linkPage">
+                <fa-icon [icon]="iconUser" style="margin-right: 5px"></fa-icon>
+                Admin PT Hamzah
+              </a>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
   </header>
- 
+
   <section>
     <div class="container-fluid border body-article">
       <div class="row justify-content-evenly border">

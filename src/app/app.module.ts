@@ -11,6 +11,7 @@ import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { VisitorListComponent } from './visitor-list/visitor-list.component';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     AppRoutingModule,
     NgxBarcodeModule,
+    FontAwesomeModule,
   ],
   providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
   bootstrap: [AppComponent],
