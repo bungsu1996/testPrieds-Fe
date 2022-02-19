@@ -1,14 +1,13 @@
 <body>
   <header>
-    <nav class="container-fluid border">
+    <nav class="container-fluid">
       <div class="row">
-        <div class="col-lg-4 border p-0">
-          <button type="submit" class="button-menu">
-            <img [src]="menuLeft" class="img-fluid img-button">
+        <div class="col-lg-4 p-0">
+          <button class="button-menu">
+            <img [src]="iconMenuLeft" class="img-fluid img-button" />
           </button>
-          <img src="../../assets/img/1855701.ico">
         </div>
-        <div class="col-lg-8 border p-0">
+        <div class="col-lg-8 p-0">
           <ul>
             <li>
               {{ currentDate | date: "full" }}
@@ -36,13 +35,124 @@
   </header>
 
   <section>
-    <div class="container-fluid border body-article">
-      <div class="row justify-content-evenly border">
-        <div class="col-3 border menu-aside">
+    <div class="container-fluid body-article">
+      <div class="row justify-content-evenly">
+        <div class="col-3 menu-aside">
           <h1>Search</h1>
+          <form [formGroup]="searchingForm">
+            <mat-checkbox
+              style="margin-right: 15px"
+              formControlName="visitorToday"
+              >Today Visitors</mat-checkbox
+            >
+            <mat-checkbox formControlName="cashAlready"
+              >Already Cash</mat-checkbox
+            >
+            <div class="row mt-4">
+              <mat-form-field appearance="fill">
+                <mat-label>ID Visitors</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+            <div class="row mt-1">
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Name Visitors</mat-label>
+                <input
+                  type="text"
+                  placeholder="Pick one"
+                  aria-label="Number"
+                  matInput
+                  formControlName="nameVisitor"
+                  [matAutocomplete]="auto"
+                />
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option
+                    *ngFor="let option of filteredOptions | async"
+                    [value]="option"
+                  >
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div class="container p-0">
+              <button class="btn-search">Searching</button>
+              <button class="btn-back" (click)="onBack()">Back</button>
+            </div>
+          </form>
         </div>
-        <div class="col-8 border content-menu">
-          <h1>Icon Data</h1>
+        <div class="col-8 content-menu">
+          <div class="icon-cloud">
+            <fa-icon [icon]="iconCloudArrow" class="fa-4x"></fa-icon>
+          </div>
+          <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="noIndex">
+                <th mat-header-cell *matHeaderCellDef>No.</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                  {{ i + 1 + paginator.pageIndex * paginator.pageSize }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>NAME</th>
+                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="visit">
+                <th mat-header-cell *matHeaderCellDef>VISIT</th>
+                <td mat-cell *matCellDef="let element">{{ element.visit }}</td>
+              </ng-container>
+              <ng-container matColumnDef="klinik">
+                <th mat-header-cell *matHeaderCellDef>CLINIC</th>
+                <td mat-cell *matCellDef="let element">{{ element.klinik }}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+
+            <mat-paginator
+              #paginator
+              [pageSize]="8"
+              [pageSizeOptions]="[5, 10, 20]"
+              showFirstLastButtons
+              aria-label="Select page of periodic elements"
+            >
+            </mat-paginator>
+          </div>
+          <!-- <table class="table table-stripe">
+            <thead>
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">ID Visitor</th>
+                <th scope="col">Name Visitor</th>
+                <th scope="col">Date Visit</th>
+                <th scope="col">Poliklinik</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data; let i=index">
+                <td scope="row">{{ i+1 }}</td>
+                <td scope="row">{{ item.id }}</td>
+                <td scope="row">{{ item.name }}</td>
+                <td scope="row">{{ item.visit }}</td>
+                <td scope="row">{{ item.klinik }}</td>
+              </tr>
+              <tr *ngFor="let item of list; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td scope="row">{{ item.id }}</td>
+                <td scope="row">{{ item.name }}</td>
+                <td scope="row">{{ item.visit | date: "short" }}</td>
+                <td scope="row">{{ item.klinik }}</td>
+              </tr>
+            </tbody>
+          </table> -->
         </div>
       </div>
     </div>
