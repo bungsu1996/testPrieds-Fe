@@ -2,7 +2,7 @@
   <h1 class="sub">ALMEGATEX</h1>
   <h3 style="text-align: center">Nomor Antrian anda :</h3>
   <br /><br />
-  <h1 class="numb-qeue">A001</h1>
+  <h1 class="numb-qeue">A{{ ticket?.numberTicket }}</h1>
   <br /><br />
   <h3 style="text-align: center">Mohon Menunggu</h3>
   <div fxLayout="column">
@@ -32,5 +32,5 @@
   <hr style="border-bottom: 5px solid black">
   <h3 style="text-align: center">Budayakan antri untuk kenyamanan<br /> bersama</h3>
   <h3 style="text-align: center; font-weight: bold;">Terima Kasih atas kunjungan anda</h3>
-  <button type="submit" class="get-ticket">Ambil Antrian</button>
+  <button type="submit" class="get-ticket" (click)="OnGetTicket()">Ambil Antrian</button>
 </div>

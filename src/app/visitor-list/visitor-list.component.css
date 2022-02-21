@@ -21,7 +21,6 @@ body header .container-fluid .row div ul {
 }
 body header .container-fluid .row div ul li {
   display: inline-block;
-  border: 1px solid black;
   padding: 10px 20px;
 }
 body header .container-fluid .row div ul li a.linkPage {
@@ -30,8 +29,14 @@ body header .container-fluid .row div ul li a.linkPage {
   color: black;
   transition: .3s;
 }
+mat-spinner {
+  margin: auto;
+}
 body header .container-fluid .row div ul li a.linkPage:hover {
   color: rgb(44, 44, 167);
+}
+body section {
+  background-color: rgb(202, 202, 202);
 }
 body section .body-article {
   margin-top: 10px;

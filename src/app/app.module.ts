@@ -12,7 +12,7 @@ import { VisitorListComponent } from './visitor-list/visitor-list.component';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,6 +25,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   imports: [
     BrowserModule,
     CommonModule,
+    HttpClientModule,
     MaterialModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,

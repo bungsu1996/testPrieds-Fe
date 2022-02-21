@@ -27,3 +27,8 @@ section .container .body-article .warn {
   margin: 10px 0 0 0;
   font-size: 24px;
 }
+section .container .container .warn {
+  padding: 15px 0;
+  margin: 10px 0 0 0;
+  font-size: 24px;
+}

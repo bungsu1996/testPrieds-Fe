@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { IVisitor } from './IVisitor';
 import {
@@ -9,8 +9,12 @@ import {
   faQuestionCircle,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { map, Observable, startWith } from 'rxjs';
+import { Observable, startWith } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { VisitorsService } from '../services/visitors.service';
+import inputVisitor from '../interface/IVisitors';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-visitor-list',
@@ -24,80 +28,119 @@ export class VisitorListComponent implements OnInit {
   iconCloudArrow = faCloudArrowDown;
   currentDate: number = Date.now();
   iconMenuLeft = '../../assets/img/1855701.ico';
-  nameVisitor = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]>;
+  filteredOptions: Observable<inputVisitor[]>;
   searchingForm: FormGroup;
-
-  displayedColumns: string[] = ['noIndex', 'id', 'name', 'visit', 'klinik'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  visitors: any;
+  searchedVisitors: any;
+  showSearching: Boolean = false;
+  displayedColumns: string[] = [
+    'noIndex',
+    'visitorId',
+    'visitorName',
+    'createdAt',
+    'clinic',
+  ];
+  searchVisitors: inputVisitor[] = [];
+  errorSearch: Boolean = false;
+  errorNoData: Boolean = false;
+  spinner: Boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private visitorService: VisitorsService
+  ) {}
 
   ngOnInit(): void {
-    this.hasFiltered();
+    this._spinner();
     this.searchFormInit();
+    this.getVisitor();
   }
 
-  public hasFiltered() {
-    this.filteredOptions = this.nameVisitor.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value))
-    );
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
+  public _spinner() {
+    setTimeout(() => {
+      this.spinner = true;
+    }, 2000);
   }
 
   private searchFormInit() {
     this.searchingForm = this.formBuilder.group({
-      visitorToday: [''],
-      cashAlready: [''],
-      nameVisitor: [''],
+      // visitorToday: [''],
+      visitorName: ['', Validators.required],
     });
+    this.filteredOptions = this.searchingForm.controls[
+      'visitorName'
+    ].valueChanges.pipe(
+      startWith(''),
+      map((value) => (typeof value === 'string' ? value : value.visitorName)),
+      map((visitorName) =>
+        visitorName ? this._filter(visitorName) : this.searchVisitors.slice()
+      )
+    );
+  }
+
+  get formControl() {
+    return this.searchingForm.controls;
+  }
+
+  private _filter(visitorName: any): inputVisitor[] {
+    const filterValue = visitorName.toLowerCase();
+    this.visitorService.getVisitors().subscribe((res: any) => {
+      this.searchVisitors = res;
+    });
+    return this.searchVisitors.filter((item) =>
+      item.visitorName.toLowerCase().includes(filterValue)
+    );
+  }
+
+  public getVisitor() {
+    this.visitorService.getVisitors().subscribe((res: any) => {
+      this.visitors = new MatTableDataSource<inputVisitor>(res);
+      this.visitors.paginator = this.paginator;
+    });
+  }
+
+  public onSearch() {
+    if (this.formControl['visitorName'].valid === false) {
+      this.errorSearch = true;
+      setTimeout(() => {
+        this.errorSearch = false;
+      }, 2000);
+    } else {
+      const search: IVisitor = {
+        visitorName: this.formControl['visitorName'].value,
+      };
+      this.visitorService.searchByName(search.visitorName).subscribe(
+        (res: any) => {
+          if (res.length < 1) {
+            this.errorNoData = true;
+          } else {
+            this.showSearching = true;
+            this.searchedVisitors = new MatTableDataSource<inputVisitor>(res);
+            this.searchedVisitors.paginator = this.paginator;
+          }
+        },
+        () => {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Please Fill Match Form',
+            showConfirmButton: false,
+            timer: 2500,
+          });
+        }
+      );
+    }
+  }
+
+  public onBackList() {
+    this.showSearching = false;
+    this.errorNoData = false;
   }
 
   public onBack() {
     this.router.navigate(['/']);
   }
 }
-
-export interface PeriodicElement {
-  id: string;
-  name: string;
-  visit: Number;
-  klinik: string;
-}
-
-let dateNow = Date.now();
-const ELEMENT_DATA: PeriodicElement[] = [
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-  { id: '0001', name: 'hamzah', visit: dateNow, klinik: 'kandungan' },
-];
